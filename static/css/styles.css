@@ -129,3 +129,53 @@ nav {
 .dark-red-header {
     background-color: #8B0000; /* Dark red */
 }
+
+/* Changing link colors */
+a {
+    color: #8B0000; /* Dark red */
+}
+
+a:hover {
+    color: #A52A2A; /* Slightly lighter red for hover state */
+}
+
+/* Updating button styles */
+.btn-primary {
+    background-color: #8B0000;
+    border-color: #8B0000;
+}
+
+.btn-primary:hover {
+    background-color: #A52A2A;
+    border-color: #A52A2A;
+}
+
+/* Ensure text contrast for accessibility */
+.text-blue-500 {
+    color: #8B0000; /* Dark red */
+}
+
+.text-blue-500:hover {
+    color: #A52A2A; /* Slightly lighter red for hover state */
+}
+
+.bg-blue-500 {
+    background-color: #8B0000; /* Dark red */
+}
+
+.bg-blue-500:hover {
+    background-color: #A52A2A; /* Slightly lighter red for hover state */
+}
+
+.focus\:ring-blue-300:focus {
+    --tw-ring-color: #A52A2A; /* Slightly lighter red */
+}
+
+/* Update any other blue elements to red */
+.text-blue-400 {
+    color: #A52A2A; /* Slightly lighter red */
+}
+
+.hover\:text-blue-800:hover {
+    color: #8B0000; /* Dark red */
+}
