@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ current_user.username }}'s Profile - IMDB Clone{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">{{ current_user.username }}'s Profile</h1>
+
+<div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
+    <h2 class="text-2xl font-semibold mb-4">Your Ratings</h2>
+    {% if ratings %}
+    <ul>
+        {% for rating in ratings %}
+        <li class="mb-4">
+            <a href="{{ url_for('movie_detail', movie_id=rating.movie.id) }}" class="text-blue-500 hover:underline">{{ rating.movie.title }}</a>
+            - Your rating: {{ rating.score }}/10
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-gray-600">You haven't rated any movies yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

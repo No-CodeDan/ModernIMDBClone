@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} - IMDB Clone{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl mx-auto mt-8">
+    <div class="md:flex">
+        <div class="md:flex-shrink-0">
+            <img class="h-96 w-full object-cover md:w-64" src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+        </div>
+        <div class="p-8">
+            <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
+            <p class="text-gray-600 mb-4">{{ movie.year }}</p>
+            <p class="text-lg mb-4">{{ movie.description }}</p>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Cast</h2>
+                <ul>
+                    {% for actor in cast %}
+                    <li>{{ actor.name }} as {{ actor.role }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Crew</h2>
+                <ul>
+                    {% for member in crew %}
+                    <li>{{ member.name }} - {{ member.role }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Rating</h2>
+                <p>Average: {{ avg_rating|default('Not rated yet') }}</p>
+            </div>
+            
+            {% if current_user.is_authenticated %}
+            <form method="POST" action="{{ url_for('rate_movie', movie_id=movie.id) }}">
+                {{ form.hidden_tag() }}
+                <div class="mb-4">
+                    {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.score(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                </div>
+                {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            </form>
+            {% else %}
+            <p>Please <a href="{{ url_for('login') }}" class="text-blue-500">login</a> to rate this movie.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

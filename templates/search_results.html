@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - IMDB Clone{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Search Results</h1>
+
+<form method="POST" action="{{ url_for('search') }}" class="mb-8">
+    {{ form.hidden_tag() }}
+    <div class="flex">
+        {{ form.query(class="shadow appearance-none border rounded-l w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder="Search for movies...") }}
+        {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r") }}
+    </div>
+</form>
+
+{% if movies %}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for movie in movies %}
+    <div class="bg-white rounded shadow-md overflow-hidden">
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-64 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">{{ movie.title }}</h3>
+            <p class="text-gray-600">{{ movie.year }}</p>
+            <a href="{{ url_for('movie_detail', movie_id=movie.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-600">No results found for "{{ query }}"</p>
+{% endif %}
+{% endblock %}
