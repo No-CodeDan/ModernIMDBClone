@@ -48,9 +48,7 @@
                 </div>
                 {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
-            {% if user_rating %}
-            <p class="mt-2">Your rating: {{ user_rating.score }} stars</p>
-            {% endif %}
+            <p class="mt-2 user-rating">Your rating: {{ user_rating.score if user_rating else 0 }} stars</p>
             {% else %}
             <p>Please <a href="{{ url_for('main.login') }}" class="text-blue-500">login</a> to rate this movie.</p>
             {% endif %}
@@ -100,7 +98,7 @@
 .star-rating-stars::after {
     color: #ffca08;
     overflow: hidden;
-    width: 0;
+    width: var(--rating-width, 0%);
     white-space: nowrap;
     position: absolute;
     left: 0;
@@ -112,7 +110,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const ratingInput = document.getElementById('star-rating');
-    const ratingStars = document.querySelector('.star-rating-stars::after');
+    const ratingStars = document.querySelector('.star-rating-stars');
     const ratingForm = document.getElementById('rating-form');
 
     function updateStars(value) {
@@ -121,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             value = 0;
         }
         const percentage = (value / 5) * 100;
-        ratingStars.style.width = `${percentage}%`;
+        ratingStars.style.setProperty('--rating-width', `${percentage}%`);
     }
 
     if (ratingInput && ratingStars) {
@@ -164,6 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     alert('Rating submitted successfully!');
+                    // Update the displayed rating
+                    const userRatingElement = document.querySelector('.user-rating');
+                    if (userRatingElement) {
+                        userRatingElement.textContent = `Your rating: ${formData.get('score')} stars`;
+                    }
                 } else {
                     alert('Error submitting rating: ' + data.message);
                 }
