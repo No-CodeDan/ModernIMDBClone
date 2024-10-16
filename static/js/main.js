@@ -61,20 +61,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         .then(data => {
                             searchResultsDropdown.innerHTML = '';
                             if (data.length > 0) {
-                                data.forEach(movie => {
-                                    const movieElement = document.createElement('div');
-                                    movieElement.classList.add('search-result-item');
-                                    movieElement.innerHTML = `
-                                        <img src="https://image.tmdb.org/t/p/w92${movie.poster_path}" alt="${movie.title}" onerror="this.onerror=null;this.src='/static/img/no-poster.png';">
+                                data.forEach(result => {
+                                    const resultElement = document.createElement('div');
+                                    resultElement.classList.add('search-result-item');
+                                    resultElement.innerHTML = `
+                                        <img src="https://image.tmdb.org/t/p/w92${result.poster_path}" alt="${result.title}" onerror="this.onerror=null;this.src='/static/img/no-poster.png';">
                                         <div>
-                                            <h4>${movie.title}</h4>
-                                            <p>${movie.release_date}</p>
+                                            <h4>${result.title}</h4>
+                                            <p>${result.release_date ? result.release_date.substring(0, 4) : 'N/A'} - ${result.media_type.toUpperCase()}</p>
                                         </div>
                                     `;
-                                    movieElement.addEventListener('click', () => {
-                                        window.location.href = `/movie/${movie.id}`;
+                                    resultElement.addEventListener('click', () => {
+                                        if (result.media_type === 'movie') {
+                                            window.location.href = `/movie/${result.id}`;
+                                        } else if (result.media_type === 'tv') {
+                                            window.location.href = `/tv_show/${result.id}`;
+                                        }
                                     });
-                                    searchResultsDropdown.appendChild(movieElement);
+                                    searchResultsDropdown.appendChild(resultElement);
                                 });
                                 searchResultsDropdown.style.display = 'block';
                             } else {

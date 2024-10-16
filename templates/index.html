@@ -5,7 +5,7 @@
 {% block content %}
 <h1 class="text-3xl font-bold mb-6">Welcome to IMDB Clone</h1>
 
-<section>
+<section class="mb-8">
     <h2 class="text-2xl font-semibold mb-4">Popular Movies</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {% for movie in movies %}
@@ -13,11 +13,33 @@
             <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-64 object-cover">
             <div class="p-4">
                 <h3 class="font-bold text-lg mb-2">{{ movie.title }}</h3>
-                <p class="text-gray-600">{{ movie.release_date[:4] }}</p>
+                <p class="text-gray-600">{{ movie.release_date[:4] if movie.release_date else 'N/A' }}</p>
                 <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a href="{{ url_for('main.movie_list') }}" class="text-blue-500 hover:underline">See all movies</a>
+    </div>
+</section>
+
+<section>
+    <h2 class="text-2xl font-semibold mb-4">Popular TV Shows</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {% for tv_show in tv_shows %}
+        <div class="bg-white rounded shadow-md overflow-hidden">
+            <img src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}" class="w-full h-64 object-cover">
+            <div class="p-4">
+                <h3 class="font-bold text-lg mb-2">{{ tv_show.name }}</h3>
+                <p class="text-gray-600">{{ tv_show.first_air_date[:4] if tv_show.first_air_date else 'N/A' }}</p>
+                <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a href="{{ url_for('main.tv_show_list') }}" class="text-blue-500 hover:underline">See all TV shows</a>
     </div>
 </section>
 {% endblock %}

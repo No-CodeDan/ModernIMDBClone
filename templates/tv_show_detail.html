@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tv_show.name }} - IMDB Clone{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl mx-auto mt-8">
+    <div class="md:flex">
+        <div class="md:flex-shrink-0">
+            <img class="h-96 w-full object-cover md:w-64" src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}">
+        </div>
+        <div class="p-8">
+            <h1 class="text-3xl font-bold mb-2">{{ tv_show.name }}</h1>
+            <p class="text-gray-600 mb-4">First aired: {{ tv_show.first_air_date }}</p>
+            <p class="text-lg mb-4">{{ tv_show.overview }}</p>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Cast</h2>
+                <ul>
+                    {% for actor in tv_show.credits.cast[:5] %}
+                    <li>{{ actor.name }} as {{ actor.character }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Crew</h2>
+                <ul>
+                    {% for member in tv_show.credits.crew[:5] %}
+                    <li>{{ member.name }} - {{ member.job }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Rating</h2>
+                <p>TMDb Rating: {{ tv_show.vote_average }}/10 ({{ tv_show.vote_count }} votes)</p>
+            </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Streaming Services</h2>
+                {% if db_tv_show.streaming_services %}
+                <ul>
+                    {% for provider in db_tv_show.streaming_services.get('flatrate', []) %}
+                    <li>{{ provider.provider_name }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No streaming information available.</p>
+                {% endif %}
+            </div>
+            
+            {% if current_user.is_authenticated %}
+            <form method="POST" action="{{ url_for('main.rate_media', media_type='tv', media_id=tv_show.id) }}" id="rating-form">
+                {{ form.hidden_tag() }}
+                <div class="mb-4">
+                    {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    <div class="star-rating-container">
+                        <input type="range" id="star-rating" name="score" min="0" max="5" step="0.5" value="{{ user_rating.score / 2 if user_rating else 0 }}" class="star-rating-input">
+                        <div class="star-rating-stars"></div>
+                    </div>
+                </div>
+                {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            </form>
+            <p class="mt-2 user-rating">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
+            {% else %}
+            <p>Please <a href="{{ url_for('main.login') }}" class="text-blue-500">login</a> to rate this TV show.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Add the same JavaScript for star rating as in movie_detail.html
+</script>
+{% endblock %}

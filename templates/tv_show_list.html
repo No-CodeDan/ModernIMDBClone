@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}TV Shows - IMDB Clone{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Popular TV Shows</h1>
+
+<div class="mb-6">
+    <form action="{{ url_for('main.tv_show_list') }}" method="get" class="flex items-center">
+        <label for="genre" class="mr-2">Filter by genre:</label>
+        <select name="genre_id" id="genre" class="border rounded px-2 py-1">
+            <option value="">All Genres</option>
+            {% for genre in genres %}
+            <option value="{{ genre.id }}" {% if genre.id|string == current_genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded">Filter</button>
+    </form>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for tv_show in tv_shows %}
+    <div class="bg-white rounded shadow-md overflow-hidden">
+        <img src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}" class="w-full h-64 object-cover">
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">{{ tv_show.name }}</h3>
+            <p class="text-gray-600">{{ tv_show.first_air_date[:4] if tv_show.first_air_date else 'N/A' }}</p>
+            <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-8 flex justify-center">
+    {% if page > 1 %}
+    <a href="{{ url_for('main.tv_show_list', page=page-1, genre_id=current_genre_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Previous</a>
+    {% endif %}
+    {% if page < total_pages %}
+    <a href="{{ url_for('main.tv_show_list', page=page+1, genre_id=current_genre_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Next</a>
+    {% endif %}
+</div>
+{% endblock %}
