@@ -8,6 +8,12 @@ from datetime import datetime
 
 main = Blueprint('main', __name__)
 
+@main.app_template_filter('format_date')
+def format_date(value, format='%B %d, %Y'):
+    if value:
+        return datetime.strptime(value, '%Y-%m-%d').strftime(format)
+    return ''
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -54,6 +60,13 @@ def tv_show_list():
     genre_id = request.args.get('genre_id')
     popular_tv_shows = get_popular_tv_shows(page=page, genre_id=genre_id, region='US')
     genres = get_genres('tv')
+    
+    # Fetch additional details for each TV show
+    for tv_show in popular_tv_shows['results']:
+        details = get_tv_show_details(tv_show['id'])
+        tv_show['number_of_seasons'] = details.get('number_of_seasons', 'N/A')
+        tv_show['number_of_episodes'] = details.get('number_of_episodes', 'N/A')
+    
     return render_template('tv_show_list.html', tv_shows=popular_tv_shows['results'], page=page, total_pages=popular_tv_shows['total_pages'], genres=genres, current_genre_id=genre_id)
 
 @main.route('/tv_show/<int:tv_id>')
