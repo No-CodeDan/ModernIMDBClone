@@ -45,7 +45,6 @@
                         <input type="range" id="star-rating" name="score" min="0" max="5" step="0.25" value="{{ user_rating.score if user_rating else 0 }}" class="star-rating-input">
                         <div class="star-rating-stars"></div>
                     </div>
-                    <span id="rating-value" class="ml-2"></span>
                 </div>
                 {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
@@ -101,7 +100,11 @@
 .star-rating-stars::after {
     color: #ffca08;
     overflow: hidden;
-    width: 0%;
+    width: 0;
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    top: 0;
     transition: width 0.2s ease-in-out;
 }
 </style>
@@ -110,7 +113,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const ratingInput = document.getElementById('star-rating');
     const ratingStars = document.querySelector('.star-rating-stars::after');
-    const ratingValue = document.getElementById('rating-value');
     const ratingForm = document.getElementById('rating-form');
 
     function updateStars(value) {
@@ -121,9 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const percentage = (value / 5) * 100;
         if (ratingStars) {
             ratingStars.style.width = `${percentage}%`;
-        }
-        if (ratingValue) {
-            ratingValue.textContent = value.toFixed(2);
         }
     }
 
