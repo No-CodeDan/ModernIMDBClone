@@ -41,12 +41,17 @@
                 {{ form.hidden_tag() }}
                 <div class="mb-4">
                     {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
-                    {{ form.score(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    <div class="star-rating">
+                        {% for i in range(1, 6) %}
+                        <input type="radio" id="star{{ i }}" name="score" value="{{ i }}" {% if user_rating and user_rating.score == i %}checked{% endif %}>
+                        <label for="star{{ i }}"></label>
+                        {% endfor %}
+                    </div>
                 </div>
                 {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
             {% if user_rating %}
-            <p class="mt-2">Your rating: {{ user_rating.score }}/10</p>
+            <p class="mt-2">Your rating: {{ user_rating.score }} stars</p>
             {% endif %}
             {% else %}
             <p>Please <a href="{{ url_for('main.login') }}" class="text-blue-500">login</a> to rate this movie.</p>
@@ -54,4 +59,26 @@
         </div>
     </div>
 </div>
+
+<style>
+.star-rating {
+    display: inline-block;
+    direction: rtl;
+}
+.star-rating input {
+    display: none;
+}
+.star-rating label {
+    color: #ddd;
+    font-size: 2em;
+    padding: 0 0.1em;
+    cursor: pointer;
+}
+.star-rating label:before {
+    content: '\2605';
+}
+.star-rating input:checked ~ label {
+    color: #ffca08;
+}
+</style>
 {% endblock %}

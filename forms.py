@@ -19,5 +19,5 @@ class SearchForm(FlaskForm):
     submit = SubmitField('Search')
 
 class RatingForm(FlaskForm):
-    score = IntegerField('Rating', validators=[DataRequired(), NumberRange(min=1, max=10)])
+    score = IntegerField('Rating', validators=[DataRequired(), NumberRange(min=1, max=5)])
     submit = SubmitField('Submit Rating')

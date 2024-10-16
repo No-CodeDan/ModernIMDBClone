@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tmdb_id = db.Column(db.Integer, unique=True, nullable=False)
-    title = db.Column(db.String(120), nullable=False)
+    title = db.Column(db.String(256), nullable=False)
     release_date = db.Column(db.Date)
     overview = db.Column(db.Text)
     poster_path = db.Column(db.String(256))
@@ -29,3 +29,7 @@ class Rating(db.Model):
     score = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
+
+    __table_args__ = (
+        db.CheckConstraint('score >= 1 AND score <= 5', name='check_valid_score'),
+    )
