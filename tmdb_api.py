@@ -4,12 +4,14 @@ import requests
 TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
 
-def get_popular_movies(page=1):
+def get_popular_movies(page=1, genre_id=None):
     url = f'{BASE_URL}/movie/popular'
     params = {
         'api_key': TMDB_API_KEY,
         'page': page
     }
+    if genre_id:
+        params['with_genres'] = genre_id
     response = requests.get(url, params=params)
     return response.json()
 
@@ -31,3 +33,11 @@ def get_movie_details(movie_id):
     }
     response = requests.get(url, params=params)
     return response.json()
+
+def get_genres():
+    url = f'{BASE_URL}/genre/movie/list'
+    params = {
+        'api_key': TMDB_API_KEY
+    }
+    response = requests.get(url, params=params)
+    return response.json()['genres']

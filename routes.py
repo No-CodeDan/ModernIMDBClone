@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import db, login_manager
 from models import User, Movie, Rating
 from forms import LoginForm, RegistrationForm, SearchForm, RatingForm
-from tmdb_api import get_popular_movies, search_movies, get_movie_details
+from tmdb_api import get_popular_movies, search_movies, get_movie_details, get_genres
 from datetime import datetime
 
 main = Blueprint('main', __name__)
@@ -49,8 +49,10 @@ def register():
 @main.route('/movies')
 def movie_list():
     page = request.args.get('page', 1, type=int)
-    popular_movies = get_popular_movies(page=page)
-    return render_template('movie_list.html', movies=popular_movies['results'], page=page, total_pages=popular_movies['total_pages'])
+    genre_id = request.args.get('genre_id', type=int)
+    popular_movies = get_popular_movies(page=page, genre_id=genre_id)
+    genres = get_genres()
+    return render_template('movie_list.html', movies=popular_movies['results'], page=page, total_pages=popular_movies['total_pages'], genres=genres, current_genre_id=genre_id)
 
 @main.route('/movie/<int:movie_id>')
 def movie_detail(movie_id):
