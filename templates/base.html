@@ -8,44 +8,60 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    <header class="bg-blue-600 text-white p-4">
-        <nav class="container mx-auto flex justify-between items-center">
-            <a href="{{ url_for('main.index') }}" class="text-2xl font-bold">IMDB Clone</a>
-            <div class="flex items-center">
-                <div class="relative mr-4">
-                    <input type="text" id="search-input" placeholder="Search movies..." class="bg-white text-gray-800 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300">
+<body class="bg-gray-900 text-white min-h-screen flex">
+    <nav class="bg-gray-800 w-64 flex-shrink-0">
+        <div class="p-4">
+            <h1 class="text-2xl font-bold mb-4">MEDIA APP</h1>
+            <ul>
+                <li class="mb-2"><a href="{{ url_for('main.index') }}" class="text-gray-300 hover:text-white">New Releases</a></li>
+                <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Trending</a></li>
+                <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Coming Soon</a></li>
+                <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Favourites</a></li>
+                <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Watch Later</a></li>
+            </ul>
+        </div>
+        <div class="mt-8 p-4">
+            <h2 class="text-lg font-semibold mb-2">Last Activity</h2>
+            <ul>
+                <li class="text-sm text-gray-400 mb-1">John Smith wants to be your friend</li>
+                <li class="text-sm text-gray-400 mb-1">Marie Curie has recommended you Jurassic World</li>
+                <li class="text-sm text-gray-400 mb-1">Albert Einstein has recommended you Gravity</li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flex-1">
+        <header class="bg-red-600 p-4">
+            <div class="flex justify-between items-center">
+                <div class="relative flex-grow max-w-xl mr-4">
+                    <input type="text" id="search-input" placeholder="Search movies..." class="bg-white text-gray-800 rounded-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-300">
                     {% include '_search_results_dropdown.html' %}
                 </div>
-                <a href="{{ url_for('main.movie_list') }}" class="mr-4">Movies</a>
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('main.profile') }}" class="mr-4">Profile</a>
-                    <a href="{{ url_for('main.logout') }}">Logout</a>
-                {% else %}
-                    <a href="{{ url_for('main.login') }}" class="mr-4">Login</a>
-                    <a href="{{ url_for('main.register') }}">Register</a>
-                {% endif %}
-            </div>
-        </nav>
-    </header>
-
-    <main class="container mx-auto flex-grow p-4">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
+                <div class="flex items-center">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.profile') }}" class="mr-4 text-white">Profile</a>
+                        <a href="{{ url_for('main.logout') }}" class="text-white">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('main.login') }}" class="mr-4 text-white">Login</a>
+                        <a href="{{ url_for('main.register') }}" class="text-white">Register</a>
+                    {% endif %}
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </header>
 
-        {% block content %}{% endblock %}
-    </main>
+        <main class="p-8">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
 
-    <footer class="bg-gray-200 text-center p-4 mt-8">
-        <p>&copy; 2023 IMDB Clone. All rights reserved.</p>
-    </footer>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>

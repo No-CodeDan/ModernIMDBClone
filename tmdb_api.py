@@ -16,30 +16,21 @@ def get_popular_movies(page=1, genre_id=None):
     response = requests.get(url, params=params)
     return response.json()
 
-def get_popular_tv_shows(page=1, genre_id=None):
+def get_popular_tv_shows(page=1, genre_id=None, region='US'):
     url = f'{BASE_URL}/discover/tv'
     params = {
         'api_key': TMDB_API_KEY,
         'page': page,
-        'sort_by': 'popularity.desc'
+        'sort_by': 'popularity.desc',
+        'with_origin_country': region
     }
     if genre_id:
         params['with_genres'] = genre_id
     response = requests.get(url, params=params)
     return response.json()
 
-def search_movies(query, page=1):
-    url = f'{BASE_URL}/search/movie'
-    params = {
-        'api_key': TMDB_API_KEY,
-        'query': query,
-        'page': page
-    }
-    response = requests.get(url, params=params)
-    return response.json()
-
-def search_tv_shows(query, page=1):
-    url = f'{BASE_URL}/search/tv'
+def search_multi(query, page=1):
+    url = f'{BASE_URL}/search/multi'
     params = {
         'api_key': TMDB_API_KEY,
         'query': query,
@@ -73,16 +64,6 @@ def get_genres(media_type='movie'):
     }
     response = requests.get(url, params=params)
     return response.json()['genres']
-
-def search_multi(query, page=1):
-    url = f'{BASE_URL}/search/multi'
-    params = {
-        'api_key': TMDB_API_KEY,
-        'query': query,
-        'page': page
-    }
-    response = requests.get(url, params=params)
-    return response.json()
 
 def get_similar_tv_shows(tv_id, page=1):
     url = f'{BASE_URL}/tv/{tv_id}/similar'
