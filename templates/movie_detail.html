@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStars(value) {
         const percentage = (value / 5) * 100;
         ratingStars.style.setProperty('--rating-percentage', `${percentage}%`);
-        ratingValue.textContent = value.toFixed(2);
+        ratingValue.textContent = Number(value).toFixed(2);
     }
 
     ratingInput.addEventListener('input', function() {
