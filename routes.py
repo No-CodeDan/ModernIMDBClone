@@ -1,9 +1,10 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db, login_manager
-from models import User, Movie, Rating, Cast, Crew
+from models import User, Movie, Rating
 from forms import LoginForm, RegistrationForm, SearchForm, RatingForm
-from utils import get_average_rating
+from tmdb_api import get_popular_movies, search_movies, get_movie_details
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -11,8 +12,8 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    movies = Movie.query.order_by(Movie.year.desc()).limit(10).all()
-    return render_template('index.html', movies=movies)
+    popular_movies = get_popular_movies()['results'][:10]
+    return render_template('index.html', movies=popular_movies)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,28 +47,46 @@ def register():
 @app.route('/movies')
 def movie_list():
     page = request.args.get('page', 1, type=int)
-    movies = Movie.query.order_by(Movie.title).paginate(page=page, per_page=20)
-    return render_template('movie_list.html', movies=movies)
+    popular_movies = get_popular_movies(page=page)
+    return render_template('movie_list.html', movies=popular_movies['results'], page=page, total_pages=popular_movies['total_pages'])
 
 @app.route('/movie/<int:movie_id>')
 def movie_detail(movie_id):
-    movie = Movie.query.get_or_404(movie_id)
-    cast = Cast.query.filter_by(movie_id=movie_id).all()
-    crew = Crew.query.filter_by(movie_id=movie_id).all()
-    avg_rating = get_average_rating(movie)
+    movie_details = get_movie_details(movie_id)
+    db_movie = Movie.query.filter_by(tmdb_id=movie_id).first()
+    if not db_movie:
+        db_movie = Movie(
+            tmdb_id=movie_id,
+            title=movie_details['title'],
+            release_date=datetime.strptime(movie_details['release_date'], '%Y-%m-%d').date() if movie_details['release_date'] else None,
+            overview=movie_details['overview'],
+            poster_path=movie_details['poster_path']
+        )
+        db.session.add(db_movie)
+        db.session.commit()
+    
     form = RatingForm()
-    return render_template('movie_detail.html', movie=movie, cast=cast, crew=crew, avg_rating=avg_rating, form=form)
+    user_rating = None
+    if current_user.is_authenticated:
+        user_rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_movie.id).first()
+    
+    return render_template('movie_detail.html', movie=movie_details, db_movie=db_movie, form=form, user_rating=user_rating)
 
 @app.route('/rate/<int:movie_id>', methods=['POST'])
 @login_required
 def rate_movie(movie_id):
     form = RatingForm()
     if form.validate_on_submit():
-        rating = Rating.query.filter_by(user_id=current_user.id, movie_id=movie_id).first()
+        db_movie = Movie.query.filter_by(tmdb_id=movie_id).first()
+        if not db_movie:
+            flash('Movie not found.')
+            return redirect(url_for('movie_detail', movie_id=movie_id))
+        
+        rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_movie.id).first()
         if rating:
             rating.score = form.score.data
         else:
-            rating = Rating(score=form.score.data, user_id=current_user.id, movie_id=movie_id)
+            rating = Rating(score=form.score.data, user_id=current_user.id, movie_id=db_movie.id)
             db.session.add(rating)
         db.session.commit()
         flash('Your rating has been submitted.')
@@ -78,8 +97,9 @@ def search():
     form = SearchForm()
     if form.validate_on_submit():
         query = form.query.data
-        movies = Movie.query.filter(Movie.title.ilike(f'%{query}%')).all()
-        return render_template('search_results.html', movies=movies, query=query)
+        page = request.args.get('page', 1, type=int)
+        search_results = search_movies(query, page=page)
+        return render_template('search_results.html', movies=search_results['results'], query=query, page=page, total_pages=search_results['total_pages'], form=form)
     return render_template('search_results.html', form=form)
 
 @app.route('/profile')

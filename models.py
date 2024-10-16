@@ -17,10 +17,11 @@ class User(UserMixin, db.Model):
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tmdb_id = db.Column(db.Integer, unique=True, nullable=False)
     title = db.Column(db.String(120), nullable=False)
-    year = db.Column(db.Integer)
-    description = db.Column(db.Text)
-    poster_url = db.Column(db.String(256))
+    release_date = db.Column(db.Date)
+    overview = db.Column(db.Text)
+    poster_path = db.Column(db.String(256))
     ratings = db.relationship('Rating', backref='movie', lazy='dynamic')
 
 class Rating(db.Model):
@@ -28,17 +29,3 @@ class Rating(db.Model):
     score = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-
-class Cast(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(64))
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-    movie = db.relationship('Movie', backref='cast')
-
-class Crew(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(64))
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-    movie = db.relationship('Movie', backref='crew')
