@@ -17,20 +17,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     backToTopButton.innerHTML = '↑';
     backToTopButton.setAttribute('id', 'backToTop');
     backToTopButton.setAttribute('title', 'Go to top');
-    backToTopButton.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 99;
-        border: none;
-        outline: none;
-        background-color: #3b82f6;
-        color: white;
-        cursor: pointer;
-        padding: 15px;
-        border-radius: 50%;
-        font-size: 18px;
-    `;
     document.body.appendChild(backToTopButton);
 
     backToTopButton.addEventListener('click', () => {

@@ -1,7 +1,7 @@
 /* Add any custom styles here */
 body {
     background-color: #1a202c;
-    color: #01001b;
+    color: #f7fafc;
 }
 
 .movie-grid {
@@ -105,83 +105,78 @@ body {
     margin: 0;
 }
 
-/* New rule for search input */
-#search-input {
-    color: #1a202c;
-}
-
 /* Navigation bar */
 nav {
-    background-color: #1a202c;
+    background-color: #c53030;
 }
 
 nav ul li a {
-    color: #f5f5f5;
+    color: #f7fafc;
 }
 
 /* Buttons */
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
-    background-color: #1a202c;
+    background-color: #e53e3e;
     color: #ffffff;
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    background-color: #2d3748;
+    background-color: #c53030;
 }
 
 /* Header */
 .dark-red-header {
-    background-color: #1a202c;
+    background-color: #c53030;
 }
 
 /* Changing link colors */
 a {
-    color: #1a202c;
+    color: #e53e3e;
 }
 
 a:hover {
-    color: #2d3748;
+    color: #c53030;
 }
 
 /* Updating button styles */
 .btn-primary {
-    background-color: #1a202c;
-    border-color: #1a202c;
+    background-color: #e53e3e;
+    border-color: #e53e3e;
 }
 
 .btn-primary:hover {
-    background-color: #2d3748;
-    border-color: #2d3748;
+    background-color: #c53030;
+    border-color: #c53030;
 }
 
 /* Ensure text contrast for accessibility */
 .text-blue-500 {
-    color: #1a202c;
+    color: #e53e3e;
 }
 
 .text-blue-500:hover {
-    color: #2d3748;
+    color: #c53030;
 }
 
 .bg-blue-500 {
-    background-color: #1a202c;
+    background-color: #e53e3e;
 }
 
 .bg-blue-500:hover {
-    background-color: #2d3748;
+    background-color: #c53030;
 }
 
 .focus\:ring-blue-300:focus {
-    --tw-ring-color: #1a202c;
+    --tw-ring-color: #e53e3e;
 }
 
-/* Update any other blue elements to dark blue */
+/* Update any other blue elements to red */
 .text-blue-400 {
-    color: #1a202c;
+    color: #e53e3e;
 }
 
 .hover\:text-blue-800:hover {
-    color: #2d3748;
+    color: #c53030;
 }
 
 /* Star rating styles */
@@ -232,4 +227,23 @@ a:hover {
     left: 0;
     top: 0;
     transition: width 0.2s ease-in-out;
+}
+
+/* Back to top button */
+#backToTop {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    background-color: #1a202c;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#backToTop:hover {
+    background-color: #2d3748;
 }
