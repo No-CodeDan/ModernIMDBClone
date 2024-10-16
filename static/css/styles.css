@@ -109,3 +109,23 @@ body {
 #search-input {
     color: #1a202c;
 }
+
+/* Navigation bar */
+nav {
+    background-color: #8B0000; /* Dark red */
+}
+
+/* Buttons */
+.btn, button, [type='button'], [type='reset'], [type='submit'] {
+    background-color: #8B0000; /* Dark red */
+    color: #ffffff; /* White text for contrast */
+}
+
+.btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
+    background-color: #A52A2A; /* Slightly lighter red for hover state */
+}
+
+/* Header */
+.dark-red-header {
+    background-color: #8B0000; /* Dark red */
+}
