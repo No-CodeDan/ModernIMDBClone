@@ -28,6 +28,7 @@
                     <p>Status: {{ tv_show.status }}</p>
                     <p>Genres: {{ tv_show.genres|map(attribute='name')|join(', ') }}</p>
                     <p>Networks: {{ tv_show.networks|map(attribute='name')|join(', ') }}</p>
+                    <p>Original Language: {{ tv_show.original_language|upper }}</p>
                 </div>
                 <div>
                     <h2 class="text-xl font-semibold mb-2">Cast</h2>
@@ -44,7 +45,7 @@
                 {% if db_tv_show.streaming_services %}
                 <ul class="flex flex-wrap gap-2">
                     {% for provider in db_tv_show.streaming_services.get('flatrate', []) %}
-                    <li class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">{{ provider.provider_name }}</li>
+                    <li class="bg-red-600 text-white px-3 py-1 rounded-full text-sm">{{ provider.provider_name }}</li>
                     {% endfor %}
                 </ul>
                 {% else %}
@@ -62,11 +63,11 @@
                         <div class="star-rating-stars"></div>
                     </div>
                 </div>
-                {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+                {{ form.submit(class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
             <p class="mt-2 user-rating text-gray-300">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
             {% else %}
-            <p class="text-gray-300">Please <a href="{{ url_for('main.login') }}" class="text-blue-400 hover:underline">login</a> to rate this TV show.</p>
+            <p class="text-gray-300">Please <a href="{{ url_for('main.login') }}" class="text-red-400 hover:underline">login</a> to rate this TV show.</p>
             {% endif %}
         </div>
     </div>
@@ -75,18 +76,16 @@
 {% if similar_tv_shows %}
 <div class="mt-12">
     <h2 class="text-2xl font-bold mb-6">Similar TV Shows</h2>
-    <div class="movie-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for similar_show in similar_tv_shows %}
-        <div class="movie-card relative">
-            <img src="https://image.tmdb.org/t/p/w500{{ similar_show.poster_path }}" alt="{{ similar_show.name }}" class="movie-poster">
-            <div class="movie-info">
-                <h3 class="movie-title">{{ similar_show.name }}</h3>
-                <p class="movie-year">{{ similar_show.first_air_date[:4] if similar_show.first_air_date else 'N/A' }}</p>
+        <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <img src="https://image.tmdb.org/t/p/w500{{ similar_show.poster_path }}" alt="{{ similar_show.name }}" class="w-full h-64 object-cover">
+            <div class="p-4">
+                <h3 class="font-bold text-xl mb-2">{{ similar_show.name }}</h3>
+                <p class="text-gray-400 mb-2">{{ similar_show.first_air_date[:4] if similar_show.first_air_date else 'N/A' }}</p>
+                <p class="text-yellow-500 mb-2">★ {{ similar_show.vote_average|round(1) }}</p>
+                <a href="{{ url_for('main.tv_show_detail', tv_id=similar_show.id) }}" class="mt-2 inline-block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">View Details</a>
             </div>
-            <div class="movie-rating">
-                {{ similar_show.vote_average|round(1) }}
-            </div>
-            <a href="{{ url_for('main.tv_show_detail', tv_id=similar_show.id) }}" class="absolute inset-0"></a>
         </div>
         {% endfor %}
     </div>

@@ -1,7 +1,7 @@
 /* Add any custom styles here */
 body {
     background-color: #1a202c;
-    color: #fff;
+    color: #01001b;
 }
 
 .movie-grid {
@@ -112,59 +112,63 @@ body {
 
 /* Navigation bar */
 nav {
-    background-color: #8B0000; /* Dark red */
+    background-color: #1a202c; /* Updated to match the body background */
+}
+
+nav ul li a {
+    color: #f5f5f5; /* Off-white color */
 }
 
 /* Buttons */
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
-    background-color: #8B0000; /* Dark red */
+    background-color: #A52A2A; /* Slightly lighter red */
     color: #ffffff; /* White text for contrast */
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    background-color: #A52A2A; /* Slightly lighter red for hover state */
+    background-color: #8B0000; /* Dark red for hover state */
 }
 
 /* Header */
 .dark-red-header {
-    background-color: #8B0000; /* Dark red */
+    background-color: #1a202c; /* Updated to match the body background */
 }
 
 /* Changing link colors */
 a {
-    color: #8B0000; /* Dark red */
+    color: #A52A2A; /* Slightly lighter red */
 }
 
 a:hover {
-    color: #A52A2A; /* Slightly lighter red for hover state */
+    color: #8B0000; /* Dark red for hover state */
 }
 
 /* Updating button styles */
 .btn-primary {
-    background-color: #8B0000;
-    border-color: #8B0000;
-}
-
-.btn-primary:hover {
     background-color: #A52A2A;
     border-color: #A52A2A;
 }
 
+.btn-primary:hover {
+    background-color: #8B0000;
+    border-color: #8B0000;
+}
+
 /* Ensure text contrast for accessibility */
 .text-blue-500 {
-    color: #8B0000; /* Dark red */
+    color: #A52A2A; /* Slightly lighter red */
 }
 
 .text-blue-500:hover {
-    color: #A52A2A; /* Slightly lighter red for hover state */
+    color: #8B0000; /* Dark red for hover state */
 }
 
 .bg-blue-500 {
-    background-color: #8B0000; /* Dark red */
+    background-color: #A52A2A; /* Slightly lighter red */
 }
 
 .bg-blue-500:hover {
-    background-color: #A52A2A; /* Slightly lighter red for hover state */
+    background-color: #8B0000; /* Dark red for hover state */
 }
 
 .focus\:ring-blue-300:focus {

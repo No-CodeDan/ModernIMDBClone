@@ -8,26 +8,34 @@
 <div class="mb-6">
     <form action="{{ url_for('main.tv_show_list') }}" method="get" class="flex items-center">
         <label for="genre" class="mr-2">Filter by genre:</label>
-        <select name="genre_id" id="genre" class="border rounded px-2 py-1">
+        <select name="genre_id" id="genre" class="border rounded px-2 py-1 text-gray-700">
             <option value="">All Genres</option>
             {% for genre in genres %}
             <option value="{{ genre.id }}" {% if genre.id|string == current_genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded">Filter</button>
+        <button type="submit" class="ml-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Filter</button>
     </form>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for tv_show in tv_shows %}
-    <div class="bg-white rounded shadow-md overflow-hidden">
+    <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <img src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}" class="w-full h-64 object-cover">
         <div class="p-4">
-            <h3 class="font-bold text-lg mb-2">{{ tv_show.name }}</h3>
-            <p class="text-gray-600">{{ tv_show.first_air_date[:4] if tv_show.first_air_date else 'N/A' }}</p>
+            <h3 class="font-bold text-xl mb-2">{{ tv_show.name }}</h3>
+            <p class="text-gray-400 mb-2">{{ tv_show.first_air_date[:4] if tv_show.first_air_date else 'N/A' }}</p>
             <p class="text-yellow-500 mb-2">★ {{ tv_show.vote_average|round(1) }} ({{ tv_show.vote_count }} votes)</p>
-            <p class="text-gray-700 mb-2">{{ tv_show.number_of_seasons }} season(s)</p>
-            <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+            <p class="text-gray-300 mb-2">{{ tv_show.number_of_seasons }} season(s), {{ tv_show.number_of_episodes }} episode(s)</p>
+            <p class="text-gray-400 mb-2 line-clamp-3">{{ tv_show.overview }}</p>
+            <p class="text-gray-300 mb-2">
+                {% for genre in tv_show.genre_ids[:3] %}
+                <span class="inline-block bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-200 mr-2 mb-2">
+                    {{ genres|selectattr("id", "eq", genre)|map(attribute="name")|first }}
+                </span>
+                {% endfor %}
+            </p>
+            <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="mt-2 inline-block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">View Details</a>
         </div>
     </div>
     {% endfor %}
@@ -35,10 +43,10 @@
 
 <div class="mt-8 flex justify-center">
     {% if page > 1 %}
-    <a href="{{ url_for('main.tv_show_list', page=page-1, genre_id=current_genre_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Previous</a>
+    <a href="{{ url_for('main.tv_show_list', page=page-1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Previous</a>
     {% endif %}
     {% if page < total_pages %}
-    <a href="{{ url_for('main.tv_show_list', page=page+1, genre_id=current_genre_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Next</a>
+    <a href="{{ url_for('main.tv_show_list', page=page+1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Next</a>
     {% endif %}
 </div>
 {% endblock %}
