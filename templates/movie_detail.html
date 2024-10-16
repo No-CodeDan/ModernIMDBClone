@@ -121,12 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
             value = 0;
         }
         const percentage = (value / 5) * 100;
-        if (ratingStars) {
-            ratingStars.style.width = `${percentage}%`;
-        }
+        ratingStars.style.width = `${percentage}%`;
     }
 
-    if (ratingInput) {
+    if (ratingInput && ratingStars) {
         ratingInput.addEventListener('input', function() {
             updateStars(this.value);
         });
@@ -146,6 +144,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ratingInput.addEventListener('mouseleave', function() {
             updateStars(this.value);
         });
+
+        // Initialize stars on page load
+        updateStars(ratingInput.value);
     }
 
     if (ratingForm) {
@@ -173,9 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
-    // Initialize stars on page load
-    updateStars(ratingInput ? ratingInput.value : 0);
 });
 </script>
 {% endblock %}
