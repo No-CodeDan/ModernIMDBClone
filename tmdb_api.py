@@ -5,10 +5,11 @@ TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
 
 def get_popular_movies(page=1, genre_id=None):
-    url = f'{BASE_URL}/movie/popular'
+    url = f'{BASE_URL}/discover/movie'  # Changed from /movie/popular to /discover/movie
     params = {
         'api_key': TMDB_API_KEY,
-        'page': page
+        'page': page,
+        'sort_by': 'popularity.desc'  # Ensure we still get popular movies
     }
     if genre_id:
         params['with_genres'] = genre_id
