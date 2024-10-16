@@ -88,3 +88,8 @@
     color: #666;
     margin: 0;
 }
+
+/* New rule for search input */
+#search-input {
+    color: black;
+}
