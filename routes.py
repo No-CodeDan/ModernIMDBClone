@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db, login_manager
 from models import User, Movie, Rating
@@ -83,8 +83,7 @@ def rate_movie(movie_id):
     if form.validate_on_submit():
         db_movie = Movie.query.filter_by(tmdb_id=movie_id).first()
         if not db_movie:
-            flash('Movie not found.')
-            return redirect(url_for('main.movie_detail', movie_id=movie_id))
+            return jsonify({'success': False, 'message': 'Movie not found.'})
         
         rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_movie.id).first()
         if rating:
@@ -93,8 +92,8 @@ def rate_movie(movie_id):
             rating = Rating(score=form.score.data, user_id=current_user.id, movie_id=db_movie.id)
             db.session.add(rating)
         db.session.commit()
-        flash('Your rating has been submitted.')
-    return redirect(url_for('main.movie_detail', movie_id=movie_id))
+        return jsonify({'success': True, 'message': 'Your rating has been submitted.'})
+    return jsonify({'success': False, 'message': 'Invalid form data.'})
 
 @main.route('/search', methods=['GET', 'POST'])
 def search():

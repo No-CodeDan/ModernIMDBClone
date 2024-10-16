@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, DecimalField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange
 
 class LoginForm(FlaskForm):
@@ -19,5 +19,5 @@ class SearchForm(FlaskForm):
     submit = SubmitField('Search')
 
 class RatingForm(FlaskForm):
-    score = IntegerField('Rating', validators=[DataRequired(), NumberRange(min=1, max=5)])
+    score = DecimalField('Rating', validators=[DataRequired(), NumberRange(min=0, max=5)], places=2)
     submit = SubmitField('Submit Rating')

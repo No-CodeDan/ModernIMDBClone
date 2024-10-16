@@ -37,16 +37,15 @@
             </div>
             
             {% if current_user.is_authenticated %}
-            <form method="POST" action="{{ url_for('main.rate_movie', movie_id=movie.id) }}">
+            <form method="POST" action="{{ url_for('main.rate_movie', movie_id=movie.id) }}" id="rating-form">
                 {{ form.hidden_tag() }}
                 <div class="mb-4">
                     {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
-                    <div class="star-rating">
-                        {% for i in range(1, 6) %}
-                        <input type="radio" id="star{{ i }}" name="score" value="{{ i }}" {% if user_rating and user_rating.score == i %}checked{% endif %}>
-                        <label for="star{{ i }}"></label>
-                        {% endfor %}
+                    <div class="star-rating-container">
+                        <input type="range" id="star-rating" name="score" min="0" max="5" step="0.25" value="{{ user_rating.score if user_rating else 0 }}" class="star-rating-input">
+                        <div class="star-rating-stars"></div>
                     </div>
+                    <span id="rating-value" class="ml-2"></span>
                 </div>
                 {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
@@ -61,24 +60,93 @@
 </div>
 
 <style>
-.star-rating {
+.star-rating-container {
+    position: relative;
     display: inline-block;
-    direction: rtl;
+    width: 150px;
+    height: 30px;
 }
-.star-rating input {
-    display: none;
-}
-.star-rating label {
-    color: #ddd;
-    font-size: 2em;
-    padding: 0 0.1em;
+
+.star-rating-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
+    z-index: 2;
 }
-.star-rating label:before {
-    content: '\2605';
+
+.star-rating-stars {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
-.star-rating input:checked ~ label {
+
+.star-rating-stars::before,
+.star-rating-stars::after {
+    content: "★★★★★";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.star-rating-stars::before {
+    color: #ddd;
+}
+
+.star-rating-stars::after {
     color: #ffca08;
+    overflow: hidden;
+    transition: width 0.2s ease-in-out;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingInput = document.getElementById('star-rating');
+    const ratingStars = document.querySelector('.star-rating-stars');
+    const ratingValue = document.getElementById('rating-value');
+    const ratingForm = document.getElementById('rating-form');
+
+    function updateStars(value) {
+        const percentage = (value / 5) * 100;
+        ratingStars.style.setProperty('--rating-percentage', `${percentage}%`);
+        ratingValue.textContent = value.toFixed(2);
+    }
+
+    ratingInput.addEventListener('input', function() {
+        updateStars(this.value);
+    });
+
+    ratingInput.addEventListener('change', function() {
+        updateStars(this.value);
+    });
+
+    ratingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Rating submitted successfully!');
+            } else {
+                alert('Error submitting rating. Please try again.');
+            }
+        });
+    });
+
+    // Initialize stars on page load
+    updateStars(ratingInput.value);
+});
+</script>
 {% endblock %}
