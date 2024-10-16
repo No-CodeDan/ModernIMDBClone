@@ -26,10 +26,10 @@ class Movie(db.Model):
 
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    score = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)  # This represents a 5-star rating doubled (0-10 scale)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
 
     __table_args__ = (
-        db.CheckConstraint('score >= 1 AND score <= 5', name='check_valid_score'),
+        db.CheckConstraint('score >= 0 AND score <= 10', name='check_valid_score'),
     )

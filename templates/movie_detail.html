@@ -42,13 +42,13 @@
                 <div class="mb-4">
                     {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
                     <div class="star-rating-container">
-                        <input type="range" id="star-rating" name="score" min="0" max="5" step="0.25" value="{{ user_rating.score if user_rating else 0 }}" class="star-rating-input">
+                        <input type="range" id="star-rating" name="score" min="0" max="5" step="0.5" value="{{ user_rating.score / 2 if user_rating else 0 }}" class="star-rating-input">
                         <div class="star-rating-stars"></div>
                     </div>
                 </div>
                 {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
-            <p class="mt-2 user-rating">Your rating: {{ user_rating.score if user_rating else 0 }} stars</p>
+            <p class="mt-2 user-rating">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
             {% else %}
             <p>Please <a href="{{ url_for('main.login') }}" class="text-blue-500">login</a> to rate this movie.</p>
             {% endif %}
@@ -60,8 +60,8 @@
 .star-rating-container {
     position: relative;
     display: inline-block;
-    width: 150px;
-    height: 30px;
+    width: 200px;
+    height: 40px;
 }
 
 .star-rating-input {
@@ -87,8 +87,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 32px;
+    line-height: 40px;
 }
 
 .star-rating-stars::before {

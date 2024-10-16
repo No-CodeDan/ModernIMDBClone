@@ -85,11 +85,14 @@ def rate_movie(movie_id):
         if not db_movie:
             return jsonify({'success': False, 'message': 'Movie not found.'})
         
+        # Double the user's rating before saving
+        backend_score = form.score.data * 2
+        
         rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_movie.id).first()
         if rating:
-            rating.score = form.score.data
+            rating.score = backend_score
         else:
-            rating = Rating(score=form.score.data, user_id=current_user.id, movie_id=db_movie.id)
+            rating = Rating(score=backend_score, user_id=current_user.id, movie_id=db_movie.id)
             db.session.add(rating)
         db.session.commit()
         return jsonify({'success': True, 'message': 'Your rating has been submitted.'})
