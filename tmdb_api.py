@@ -83,3 +83,12 @@ def search_multi(query, page=1):
     }
     response = requests.get(url, params=params)
     return response.json()
+
+def get_similar_tv_shows(tv_id, page=1):
+    url = f'{BASE_URL}/tv/{tv_id}/similar'
+    params = {
+        'api_key': TMDB_API_KEY,
+        'page': page
+    }
+    response = requests.get(url, params=params)
+    return response.json()

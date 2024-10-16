@@ -11,7 +11,17 @@
         <div class="p-8">
             <h1 class="text-3xl font-bold mb-2">{{ tv_show.name }}</h1>
             <p class="text-gray-600 mb-4">First aired: {{ tv_show.first_air_date }}</p>
+            <p class="text-yellow-500 mb-4">★ {{ tv_show.vote_average|round(1) }} ({{ tv_show.vote_count }} votes)</p>
             <p class="text-lg mb-4">{{ tv_show.overview }}</p>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Details</h2>
+                <p>Number of seasons: {{ tv_show.number_of_seasons }}</p>
+                <p>Number of episodes: {{ tv_show.number_of_episodes }}</p>
+                <p>Status: {{ tv_show.status }}</p>
+                <p>Genres: {{ tv_show.genres|map(attribute='name')|join(', ') }}</p>
+                <p>Networks: {{ tv_show.networks|map(attribute='name')|join(', ') }}</p>
+            </div>
             
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Cast</h2>
@@ -29,11 +39,6 @@
                     <li>{{ member.name }} - {{ member.job }}</li>
                     {% endfor %}
                 </ul>
-            </div>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Rating</h2>
-                <p>TMDb Rating: {{ tv_show.vote_average }}/10 ({{ tv_show.vote_count }} votes)</p>
             </div>
             
             <div class="mb-4">
@@ -69,7 +74,95 @@
     </div>
 </div>
 
+{% if similar_tv_shows %}
+<div class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">Similar TV Shows</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for similar_show in similar_tv_shows %}
+        <div class="bg-white rounded shadow-md overflow-hidden">
+            <img src="https://image.tmdb.org/t/p/w500{{ similar_show.poster_path }}" alt="{{ similar_show.name }}" class="w-full h-64 object-cover">
+            <div class="p-4">
+                <h3 class="font-bold text-lg mb-2">{{ similar_show.name }}</h3>
+                <p class="text-gray-600">{{ similar_show.first_air_date[:4] if similar_show.first_air_date else 'N/A' }}</p>
+                <a href="{{ url_for('main.tv_show_detail', tv_id=similar_show.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
 <script>
 // Add the same JavaScript for star rating as in movie_detail.html
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingInput = document.getElementById('star-rating');
+    const ratingStars = document.querySelector('.star-rating-stars');
+    const ratingForm = document.getElementById('rating-form');
+
+    function updateStars(value) {
+        value = parseFloat(value);
+        if (isNaN(value)) {
+            value = 0;
+        }
+        const percentage = (value / 5) * 100;
+        ratingStars.style.setProperty('--rating-width', `${percentage}%`);
+    }
+
+    if (ratingInput && ratingStars) {
+        ratingInput.addEventListener('input', function() {
+            updateStars(this.value);
+        });
+
+        ratingInput.addEventListener('change', function() {
+            updateStars(this.value);
+        });
+
+        ratingInput.addEventListener('mousemove', function(e) {
+            const bbox = e.target.getBoundingClientRect();
+            const x = e.clientX - bbox.left;
+            const width = bbox.right - bbox.left;
+            const value = (x / width) * 5;
+            updateStars(value);
+        });
+
+        ratingInput.addEventListener('mouseleave', function() {
+            updateStars(this.value);
+        });
+
+        // Initialize stars on page load
+        updateStars(ratingInput.value);
+    }
+
+    if (ratingForm) {
+        ratingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Rating submitted successfully!');
+                    // Update the displayed rating
+                    const userRatingElement = document.querySelector('.user-rating');
+                    if (userRatingElement) {
+                        userRatingElement.textContent = `Your rating: ${formData.get('score')} stars`;
+                    }
+                } else {
+                    alert('Error submitting rating: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the rating.');
+            });
+        });
+    }
+});
 </script>
 {% endblock %}

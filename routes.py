@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import db, login_manager
 from models import User, Movie, TVShow, Rating
 from forms import LoginForm, RegistrationForm, SearchForm, RatingForm
-from tmdb_api import get_popular_movies, get_popular_tv_shows, search_multi, get_movie_details, get_tv_show_details, get_genres
+from tmdb_api import get_popular_movies, get_popular_tv_shows, search_multi, get_movie_details, get_tv_show_details, get_genres, get_similar_tv_shows
 from datetime import datetime
 
 main = Blueprint('main', __name__)
@@ -107,7 +107,9 @@ def tv_show_detail(tv_id):
     if current_user.is_authenticated:
         user_rating = Rating.query.filter_by(user_id=current_user.id, tv_show_id=db_tv_show.id, media_type='tv').first()
     
-    return render_template('tv_show_detail.html', tv_show=tv_show_details, db_tv_show=db_tv_show, form=form, user_rating=user_rating)
+    similar_tv_shows = get_similar_tv_shows(tv_id)['results'][:4]
+    
+    return render_template('tv_show_detail.html', tv_show=tv_show_details, db_tv_show=db_tv_show, form=form, user_rating=user_rating, similar_tv_shows=similar_tv_shows)
 
 @main.route('/rate/<string:media_type>/<int:media_id>', methods=['POST'])
 @login_required
