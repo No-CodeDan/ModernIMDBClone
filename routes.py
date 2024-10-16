@@ -85,7 +85,6 @@ def rate_movie(movie_id):
         if not db_movie:
             return jsonify({'success': False, 'message': 'Movie not found.'})
         
-        # Double the user's rating before saving
         backend_score = form.score.data * 2
         
         rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_movie.id).first()
@@ -107,6 +106,19 @@ def search():
         search_results = search_movies(query, page=page)
         return render_template('search_results.html', movies=search_results['results'], query=query, page=page, total_pages=search_results['total_pages'], form=form)
     return render_template('search_results.html', form=form)
+
+@main.route('/ajax_search')
+def ajax_search():
+    query = request.args.get('query', '')
+    if query:
+        search_results = search_movies(query)['results'][:5]  # Limit to 5 results for preview
+        return jsonify([{
+            'id': movie['id'],
+            'title': movie['title'],
+            'release_date': movie['release_date'][:4] if movie['release_date'] else 'N/A',
+            'poster_path': movie['poster_path']
+        } for movie in search_results])
+    return jsonify([])
 
 @main.route('/profile')
 @login_required

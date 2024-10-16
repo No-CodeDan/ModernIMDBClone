@@ -1,6 +1,4 @@
-// Add any custom JavaScript here
 document.addEventListener('DOMContentLoaded', (event) => {
-    // Initialize any JavaScript functionality
     console.log('DOM fully loaded and parsed');
 
     // Example: Add smooth scrolling to all links
@@ -46,4 +44,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
             backToTopButton.style.display = 'none';
         }
     });
+
+    // Real-time search functionality
+    const searchInput = document.getElementById('search-input');
+    const searchResultsDropdown = document.getElementById('search-results-dropdown');
+    let debounceTimer;
+
+    if (searchInput && searchResultsDropdown) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = this.value.trim();
+                if (query.length > 2) {
+                    fetch(`/ajax_search?query=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResultsDropdown.innerHTML = '';
+                            if (data.length > 0) {
+                                data.forEach(movie => {
+                                    const movieElement = document.createElement('div');
+                                    movieElement.classList.add('search-result-item');
+                                    movieElement.innerHTML = `
+                                        <img src="https://image.tmdb.org/t/p/w92${movie.poster_path}" alt="${movie.title}" onerror="this.onerror=null;this.src='/static/img/no-poster.png';">
+                                        <div>
+                                            <h4>${movie.title}</h4>
+                                            <p>${movie.release_date}</p>
+                                        </div>
+                                    `;
+                                    movieElement.addEventListener('click', () => {
+                                        window.location.href = `/movie/${movie.id}`;
+                                    });
+                                    searchResultsDropdown.appendChild(movieElement);
+                                });
+                                searchResultsDropdown.style.display = 'block';
+                            } else {
+                                searchResultsDropdown.style.display = 'none';
+                            }
+                        });
+                } else {
+                    searchResultsDropdown.style.display = 'none';
+                }
+            }, 300);
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!searchInput.contains(event.target) && !searchResultsDropdown.contains(event.target)) {
+                searchResultsDropdown.style.display = 'none';
+            }
+        });
+    }
 });
