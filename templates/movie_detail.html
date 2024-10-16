@@ -101,6 +101,7 @@
 .star-rating-stars::after {
     color: #ffca08;
     overflow: hidden;
+    width: 0%;
     transition: width 0.2s ease-in-out;
 }
 </style>
@@ -108,13 +109,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const ratingInput = document.getElementById('star-rating');
-    const ratingStars = document.querySelector('.star-rating-stars');
+    const ratingStars = document.querySelector('.star-rating-stars::after');
     const ratingValue = document.getElementById('rating-value');
     const ratingForm = document.getElementById('rating-form');
 
     function updateStars(value) {
         const percentage = (value / 5) * 100;
-        ratingStars.style.setProperty('--rating-percentage', `${percentage}%`);
+        ratingStars.style.width = `${percentage}%`;
         ratingValue.textContent = Number(value).toFixed(2);
     }
 
