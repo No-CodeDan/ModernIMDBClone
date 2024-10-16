@@ -114,9 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const ratingForm = document.getElementById('rating-form');
 
     function updateStars(value) {
+        value = parseFloat(value);
         const percentage = (value / 5) * 100;
         ratingStars.style.width = `${percentage}%`;
-        ratingValue.textContent = Number(value).toFixed(2);
+        ratingValue.textContent = value.toFixed(2);
     }
 
     ratingInput.addEventListener('input', function() {
@@ -124,6 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     ratingInput.addEventListener('change', function() {
+        updateStars(this.value);
+    });
+
+    ratingInput.addEventListener('mousemove', function(e) {
+        const bbox = e.target.getBoundingClientRect();
+        const x = e.clientX - bbox.left;
+        const width = bbox.right - bbox.left;
+        const value = (x / width) * 5;
+        updateStars(value);
+    });
+
+    ratingInput.addEventListener('mouseleave', function() {
         updateStars(this.value);
     });
 
@@ -136,13 +149,18 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
-        }).then(response => response.json())
+        })
+        .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert('Rating submitted successfully!');
             } else {
-                alert('Error submitting rating. Please try again.');
+                alert('Error submitting rating: ' + data.message);
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the rating.');
         });
     });
 
