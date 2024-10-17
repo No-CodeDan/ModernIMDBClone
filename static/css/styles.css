@@ -119,6 +119,8 @@ body {
 /* Navigation bar */
 header {
     background-color: #c53030;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 nav ul {
@@ -155,7 +157,7 @@ nav ul li a:hover {
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    background-color: #9b2c2c;
+    background-color: #fb5050;
 }
 
 /* Changing link colors */
@@ -164,7 +166,7 @@ a {
 }
 
 a:hover {
-    color: #9b2c2c;
+    color: #fb5050;
 }
 
 /* Main content styles */
@@ -203,8 +205,7 @@ main {
     }
 
     header nav {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+       margin-top 1rem;
     }
 
     nav ul {
