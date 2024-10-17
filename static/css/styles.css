@@ -2,6 +2,9 @@
 body {
     background-color: #1a202c;
     color: #f7fafc;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .movie-grid, .tv-show-grid {
@@ -106,7 +109,7 @@ body {
 }
 
 /* Navigation bar */
-nav {
+header {
     background-color: #c53030;
 }
 
@@ -122,11 +125,6 @@ nav ul li a {
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
     background-color: #9b2c2c;
-}
-
-/* Header */
-header {
-    background-color: #c53030;
 }
 
 /* Changing link colors */
@@ -248,46 +246,23 @@ a:hover {
     background-color: #2d3748;
 }
 
-/* Sidebar styles */
-.sidebar {
-    position: fixed;
-    left: -250px;
-    top: 0;
-    bottom: 0;
-    width: 250px;
-    z-index: 1000;
-    transition: left 0.3s ease-in-out;
-}
-
-body.sidebar-open .sidebar {
-    left: 0;
-}
-
 /* Main content styles */
-.main-content {
-    transition: margin-left 0.3s ease-in-out;
+main {
+    flex: 1;
     width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
-body.sidebar-open .main-content {
-    margin-left: 250px;
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Responsive adjustments */
-@media (min-width: 1024px) {
-    .sidebar {
-        left: 0;
-    }
-    
-    .main-content {
-        margin-left: 250px;
-    }
-    
-    #menu-toggle {
-        display: none;
-    }
-}
-
 @media (max-width: 1023px) {
     .movie-grid, .tv-show-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -295,10 +270,6 @@ body.sidebar-open .main-content {
 
     .movie-poster {
         height: 225px;
-    }
-    
-    body.sidebar-open .main-content {
-        margin-left: 0;
     }
 }
 
@@ -310,18 +281,4 @@ body.sidebar-open .main-content {
     .movie-poster {
         height: 180px;
     }
-}
-
-/* Main content adjustments */
-main {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: 100%;
-}
-
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
 }
