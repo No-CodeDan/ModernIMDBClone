@@ -11,37 +11,39 @@
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     <header class="bg-red-700 p-4 w-full z-10 sticky top-0">
         <div class="container mx-auto flex flex-wrap justify-between items-center">
-            <div class="flex items-center mb-2 md:mb-0">
+            <div class="flex items-center">
                 <h1 class="text-2xl font-bold mr-4">MEDIA APP</h1>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-4">
+                        <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">New Releases</a></li>
+                        <li><a href="#" class="text-white hover:text-gray-300">Trending</a></li>
+                        <li><a href="#" class="text-white hover:text-gray-300">Coming Soon</a></li>
+                        <li><a href="#" class="text-white hover:text-gray-300">Favourites</a></li>
+                        <li><a href="#" class="text-white hover:text-gray-300">Watch Later</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav class="w-full md:w-auto mb-2 md:mb-0">
-                <ul class="flex flex-wrap justify-center md:justify-start space-x-4">
-                    <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">New Releases</a></li>
-                    <li><a href="#" class="text-white hover:text-gray-300">Trending</a></li>
-                    <li><a href="#" class="text-white hover:text-gray-300">Coming Soon</a></li>
-                    <li><a href="#" class="text-white hover:text-gray-300">Favourites</a></li>
-                    <li><a href="#" class="text-white hover:text-gray-300">Watch Later</a></li>
-                </ul>
-            </nav>
-            <div class="flex items-center w-full md:w-auto">
-                <div class="relative flex-grow max-w-xs mr-4">
+            <div class="flex items-center">
+                <div class="relative mr-4">
                     <input type="text" id="search-input" placeholder="Search movies..." class="bg-white text-gray-800 rounded-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-300">
                     {% include '_search_results_dropdown.html' %}
                 </div>
-                <div class="flex items-center">
-                    {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.profile') }}" class="mr-4 text-white hover:text-gray-300">Profile</a>
-                        <a href="{{ url_for('main.logout') }}" class="text-white hover:text-gray-300">Logout</a>
-                    {% else %}
-                        <a href="{{ url_for('main.login') }}" class="mr-4 text-white hover:text-gray-300">Login</a>
-                        <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
-                    {% endif %}
-                </div>
+                <nav>
+                    <ul class="flex space-x-4">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('main.profile') }}" class="text-white hover:text-gray-300">Profile</a></li>
+                            <li><a href="{{ url_for('main.logout') }}" class="text-white hover:text-gray-300">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a></li>
+                            <li><a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-4 flex-grow">
+    <main class="container mx-auto p-4 flex-grow w-full">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
