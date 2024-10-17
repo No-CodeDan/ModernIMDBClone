@@ -10,11 +10,11 @@
 </head>
 <body class="bg-gray-900 text-white">
     <header class="bg-red-700 shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
             <div class="flex items-center">
                 <a href="{{ url_for('main.index') }}" class="text-2xl font-bold text-white hover:text-gray-200">MEDIA APP</a>
                 <nav class="hidden md:block ml-6">
-                    <ul class="flex space-x-4">
+                    <ul class="flex space-x-6">
                         <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">New Releases</a></li>
                         <li><a href="{{ url_for('main.movie_list') }}" class="text-white hover:text-gray-300">Movies</a></li>
                         <li><a href="{{ url_for('main.tv_show_list') }}" class="text-white hover:text-gray-300">TV Shows</a></li>
