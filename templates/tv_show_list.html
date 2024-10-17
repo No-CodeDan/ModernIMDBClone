@@ -14,13 +14,6 @@
             <option value="{{ genre.id }}" {% if genre.id|string == current_genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
             {% endfor %}
         </select>
-        <label for="year" class="ml-4 mr-2">Filter by year:</label>
-        <select name="year" id="year" class="border rounded px-2 py-1 text-gray-700">
-            {% for year in range(2024, 2019, -1) %}
-            <option value="{{ year }}" {% if year|string == current_year|string %}selected{% endif %}>{{ year }}</option>
-            {% endfor %}
-            <option value="">All Years</option>
-        </select>
         <button type="submit" class="ml-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Filter</button>
     </form>
 </div>
@@ -51,10 +44,10 @@
 
 <div class="mt-8 flex justify-center">
     {% if page > 1 %}
-    <a href="{{ url_for('main.tv_show_list', page=page-1, genre_id=current_genre_id, year=current_year) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Previous</a>
+    <a href="{{ url_for('main.tv_show_list', page=page-1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Previous</a>
     {% endif %}
     {% if page < total_pages %}
-    <a href="{{ url_for('main.tv_show_list', page=page+1, genre_id=current_genre_id, year=current_year) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Next</a>
+    <a href="{{ url_for('main.tv_show_list', page=page+1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Next</a>
     {% endif %}
 </div>
 {% endblock %}
