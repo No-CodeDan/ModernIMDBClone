@@ -205,7 +205,7 @@ main {
     }
 
     header nav {
-       margin-top 1rem;
+        margin-top: 1rem;
     }
 
     nav ul {
@@ -238,4 +238,9 @@ main {
     .movie-poster {
         height: 180px;
     }
+}
+
+/* Detail card background color */
+.bg-gray-800 {
+    background-color: #2d3748;
 }

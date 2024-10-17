@@ -8,7 +8,7 @@
         <div class="md:flex-shrink-0">
             <img class="h-96 w-full object-cover md:w-96" src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}">
         </div>
-        <div class="p-8 w-full bg-gray-700">
+        <div class="p-8 w-full bg-[#2d3748]">
             <div class="flex justify-between items-start">
                 <div>
                     <h1 class="text-3xl font-bold mb-2">{{ tv_show.name }}</h1>
@@ -78,7 +78,7 @@
     <h2 class="text-2xl font-bold mb-6">Similar TV Shows</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for similar_show in similar_tv_shows %}
-        <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <div class="bg-[#2d3748] rounded-lg shadow-md overflow-hidden">
             <img src="https://image.tmdb.org/t/p/w500{{ similar_show.poster_path }}" alt="{{ similar_show.name }}" class="w-full h-64 object-cover">
             <div class="p-4">
                 <h3 class="font-bold text-xl mb-2">{{ similar_show.name }}</h3>
