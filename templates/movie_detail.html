@@ -3,19 +3,19 @@
 {% block title %}{{ movie.title }} - IMDB Clone{% endblock %}
 
 {% block content %}
-<div class="bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl mx-auto mt-8">
+<div class="bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-4xl mx-auto mt-8">
     <div class="md:flex">
         <div class="md:flex-shrink-0">
             <img class="h-96 w-full object-cover md:w-64" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
         </div>
         <div class="p-8">
-            <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
-            <p class="text-gray-600 mb-4">{{ movie.release_date[:4] }}</p>
-            <p class="text-lg mb-4">{{ movie.overview }}</p>
+            <h1 class="text-3xl font-bold mb-2 text-white">{{ movie.title }}</h1>
+            <p class="text-gray-400 mb-4">{{ movie.release_date[:4] }}</p>
+            <p class="text-lg mb-4 text-gray-300">{{ movie.overview }}</p>
             
             <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Cast</h2>
-                <ul>
+                <h2 class="text-xl font-semibold mb-2 text-white">Cast</h2>
+                <ul class="text-gray-300">
                     {% for actor in movie.credits.cast[:5] %}
                     <li>{{ actor.name }} as {{ actor.character }}</li>
                     {% endfor %}
@@ -23,8 +23,8 @@
             </div>
             
             <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Crew</h2>
-                <ul>
+                <h2 class="text-xl font-semibold mb-2 text-white">Crew</h2>
+                <ul class="text-gray-300">
                     {% for member in movie.credits.crew[:5] %}
                     <li>{{ member.name }} - {{ member.job }}</li>
                     {% endfor %}
@@ -32,25 +32,25 @@
             </div>
             
             <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Rating</h2>
-                <p>TMDb Rating: {{ movie.vote_average }}/10 ({{ movie.vote_count }} votes)</p>
+                <h2 class="text-xl font-semibold mb-2 text-white">Rating</h2>
+                <p class="text-gray-300">TMDb Rating: {{ movie.vote_average }}/10 ({{ movie.vote_count }} votes)</p>
             </div>
             
             {% if current_user.is_authenticated %}
             <form method="POST" action="{{ url_for('main.rate_movie', movie_id=movie.id) }}" id="rating-form">
                 {{ form.hidden_tag() }}
                 <div class="mb-4">
-                    {{ form.score.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.score.label(class="block text-gray-300 text-sm font-bold mb-2") }}
                     <div class="star-rating-container">
                         <input type="range" id="star-rating" name="score" min="0" max="5" step="0.5" value="{{ user_rating.score / 2 if user_rating else 0 }}" class="star-rating-input">
                         <div class="star-rating-stars"></div>
                     </div>
                 </div>
-                {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+                {{ form.submit(class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
-            <p class="mt-2 user-rating">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
+            <p class="mt-2 user-rating text-gray-300">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
             {% else %}
-            <p>Please <a href="{{ url_for('main.login') }}" class="text-blue-500">login</a> to rate this movie.</p>
+            <p class="text-gray-300">Please <a href="{{ url_for('main.login') }}" class="text-red-400 hover:underline">login</a> to rate this movie.</p>
             {% endif %}
         </div>
     </div>
@@ -92,11 +92,11 @@
 }
 
 .star-rating-stars::before {
-    color: #ddd;
+    color: #4a5568;
 }
 
 .star-rating-stars::after {
-    color: #ffca08;
+    color: #fbbf24;
     overflow: hidden;
     width: var(--rating-width, 0%);
     white-space: nowrap;

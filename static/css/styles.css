@@ -150,32 +150,32 @@ a:hover {
 }
 
 /* Ensure text contrast for accessibility */
-.text-blue-500 {
+.text-red-500 {
     color: #e53e3e;
 }
 
-.text-blue-500:hover {
+.text-red-500:hover {
     color: #c53030;
 }
 
-.bg-blue-500 {
+.bg-red-500 {
     background-color: #e53e3e;
 }
 
-.bg-blue-500:hover {
+.bg-red-500:hover {
     background-color: #c53030;
 }
 
-.focus\:ring-blue-300:focus {
+.focus\:ring-red-300:focus {
     --tw-ring-color: #e53e3e;
 }
 
 /* Update any other blue elements to red */
-.text-blue-400 {
+.text-red-400 {
     color: #e53e3e;
 }
 
-.hover\:text-blue-800:hover {
+.hover\:text-red-800:hover {
     color: #c53030;
 }
 
@@ -246,4 +246,9 @@ a:hover {
 
 #backToTop:hover {
     background-color: #2d3748;
+}
+
+/* Update blue-600 to red */
+.bg-blue-600 {
+    background-color: #e53e3e;
 }
