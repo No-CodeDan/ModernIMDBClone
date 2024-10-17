@@ -252,3 +252,12 @@ a:hover {
 .bg-blue-600 {
     background-color: #e53e3e;
 }
+
+/* Adjust main content to expand full width */
+.ml-64 {
+    margin-left: 16rem; /* 64px / 4 = 16rem */
+}
+
+main.w-full {
+    width: calc(100% - 16rem); /* Subtract the sidebar width */
+}

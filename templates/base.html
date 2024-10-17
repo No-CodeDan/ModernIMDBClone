@@ -9,7 +9,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex">
-    <nav class="bg-gray-800 w-64 flex-shrink-0">
+    <nav class="bg-gray-800 w-64 flex-shrink-0 fixed h-full overflow-y-auto">
         <div class="p-4">
             <h1 class="text-2xl font-bold mb-4">MEDIA APP</h1>
             <ul>
@@ -29,7 +29,7 @@
             </ul>
         </div>
     </nav>
-    <div class="flex-1">
+    <div class="flex-1 ml-64">
         <header class="p-4 dark-red-header">
             <div class="flex justify-between items-center">
                 <div class="relative flex-grow max-w-xl mr-4">
@@ -48,7 +48,7 @@
             </div>
         </header>
 
-        <main class="p-8">
+        <main class="p-8 w-full">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
