@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}IMDB Clone{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.output.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="{{ url_for('static', filename='css/tailwind.output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col">
-    <header class="bg-red-700 p-4 w-full z-10 sticky top-0">
-        <div class="container mx-auto flex flex-wrap justify-between items-center">
+<body class="bg-gray-900 text-white">
+    <header class="bg-red-700 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <h1 class="text-2xl font-bold mr-4">MEDIA APP</h1>
-                <nav class="hidden md:block">
+                <a href="{{ url_for('main.index') }}" class="text-2xl font-bold text-white hover:text-gray-200">MEDIA APP</a>
+                <nav class="hidden md:block ml-6">
                     <ul class="flex space-x-4">
                         <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">New Releases</a></li>
                         <li><a href="{{ url_for('main.movie_list') }}" class="text-white hover:text-gray-300">Movies</a></li>
