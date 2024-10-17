@@ -21,7 +21,7 @@ def load_user(user_id):
 @main.route('/')
 def index():
     popular_movies = get_popular_movies()['results'][:5]
-    popular_tv_shows = get_popular_tv_shows(region='US')['results'][:5]
+    popular_tv_shows = get_popular_tv_shows(region='US', year=2024)['results'][:5]
     return render_template('index.html', movies=popular_movies, tv_shows=popular_tv_shows)
 
 @main.route('/movies')
@@ -58,7 +58,8 @@ def movie_detail(movie_id):
 def tv_show_list():
     page = request.args.get('page', 1, type=int)
     genre_id = request.args.get('genre_id')
-    popular_tv_shows = get_popular_tv_shows(page=page, genre_id=genre_id, region='US')
+    year = request.args.get('year', 2024, type=int)
+    popular_tv_shows = get_popular_tv_shows(page=page, genre_id=genre_id, region='US', year=year)
     genres = get_genres('tv')
     
     # Fetch additional details for each TV show
@@ -67,7 +68,7 @@ def tv_show_list():
         tv_show['number_of_seasons'] = details.get('number_of_seasons', 'N/A')
         tv_show['number_of_episodes'] = details.get('number_of_episodes', 'N/A')
     
-    return render_template('tv_show_list.html', tv_shows=popular_tv_shows['results'], page=page, total_pages=popular_tv_shows['total_pages'], genres=genres, current_genre_id=genre_id)
+    return render_template('tv_show_list.html', tv_shows=popular_tv_shows['results'], page=page, total_pages=popular_tv_shows['total_pages'], genres=genres, current_genre_id=genre_id, current_year=year)
 
 @main.route('/tv_show/<int:tv_id>')
 def tv_show_detail(tv_id):
