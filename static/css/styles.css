@@ -1,3 +1,54 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Improve readability and spacing */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+/* Enhance the search results appearance */
+#search-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-result {
+    transition: background-color 0.2s ease;
+}
+
+.search-result:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Improve button styles */
+.btn {
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhance card styles */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
 /* Add any custom styles here */
 body {
     background-color: #1a202c;
@@ -290,4 +341,63 @@ main {
     .movie-poster {
         height: 180px;
     }
+}
+
+#search-results {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-result {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.search-result img {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.search-result h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.search-result p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Change rating and icon color to yellow on movie and TV show detail pages */
+.movie-detail .movie-rating,
+.tv-show-detail .tv-show-rating,
+.movie-detail .feather-star,
+.tv-show-detail .feather-star {
+    color: #fbbf24 !important;
+}
+/* Ensure the rating stands out against different background colors */
+.movie-detail .movie-rating,
+.tv-show-detail .tv-show-rating {
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }

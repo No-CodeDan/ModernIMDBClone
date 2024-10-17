@@ -129,20 +129,6 @@ def search():
         return render_template('search_results.html', results=search_results['results'], query=query, page=page, total_pages=search_results['total_pages'], form=form)
     return render_template('search_results.html', form=form)
 
-@main.route('/ajax_search')
-def ajax_search():
-    query = request.args.get('query', '')
-    if len(query) >= 2:
-        search_results = search_multi(query)
-        return jsonify([{
-            'id': result['id'],
-            'title': result.get('title') or result.get('name'),
-            'media_type': result['media_type'],
-            'release_date': result.get('release_date') or result.get('first_air_date'),
-            'poster_path': result['poster_path']
-        } for result in search_results['results'][:5]])
-    return jsonify([])
-    
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()

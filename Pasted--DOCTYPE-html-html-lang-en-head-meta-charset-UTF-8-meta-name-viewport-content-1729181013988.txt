@@ -7,13 +7,12 @@
     <link href="{{ url_for('static', filename='css/tailwind.output.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
-  <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet'>
 </head>
 <body class="bg-gray-900 text-white">
     <header class="bg-red-700 shadow-md">
         <div class="container mx-auto px-4 py-6 flex justify-between items-center">
             <div class="flex items-center">
-                <a href="{{ url_for('main.index') }}" class="text-2xl font-bold text-white hover:text-gray-200">WHAT WE WATCHING?</a>
+                <a href="{{ url_for('main.index') }}" class="text-2xl font-bold text-white hover:text-gray-200">MEDIA APP</a>
                 <nav class="hidden md:block ml-6">
                     <ul class="flex space-x-6">
                         <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">New Releases</a></li>
@@ -29,7 +28,7 @@
             <div class="flex items-center">
                 <div class="relative mr-4">
                     <input type="text" id="search-input" placeholder="Search movies..." class="bg-white text-gray-800 rounded-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-300">
-                    <div id='search-results' class='hidden absolute z-10 mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden'></div>
+                    {% include '_search_results_dropdown.html' %}
                 </div>
                 <nav>
                     <ul class="flex space-x-4">
