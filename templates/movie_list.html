@@ -18,14 +18,23 @@
     </form>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for movie in movies %}
     <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="block movie-card-link">
-        <div class="bg-gray-800 rounded shadow-md overflow-hidden">
-            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-64 object-cover">
+        <div class="movie-card relative bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-64 object-cover lazy-load" loading="lazy">
             <div class="p-4">
-                <h3 class="font-bold text-lg mb-2 text-white">{{ movie.title }}</h3>
-                <p class="text-gray-400">{{ movie.release_date[:4] }}</p>
+                <h3 class="font-bold text-xl mb-2 text-white">{{ movie.title }}</h3>
+                <p class="text-gray-400 mb-2">{{ movie.release_date[:4] if movie.release_date else 'N/A' }}</p>
+                <p class="text-yellow-500 mb-2">★ {{ movie.vote_average|round(1) }} ({{ movie.vote_count }} votes)</p>
+                <p class="text-gray-300 mb-2 line-clamp-3">{{ movie.overview|truncate(150, true, '...') }}</p>
+                <div class="mb-2">
+                    {% for genre_id in movie.genre_ids[:3] %}
+                    <span class="inline-block bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
+                        {{ genres|selectattr("id", "eq", genre_id)|map(attribute="name")|first }}
+                    </span>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </a>
