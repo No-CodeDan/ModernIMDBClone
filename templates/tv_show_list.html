@@ -20,24 +20,25 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for tv_show in tv_shows %}
-    <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
-        <img src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}" class="w-full h-64 object-cover lazy-load" loading="lazy">
-        <div class="p-4">
-            <h3 class="font-bold text-xl mb-2">{{ tv_show.name }}</h3>
-            <p class="text-gray-400 mb-2">First aired: {{ tv_show.first_air_date|default('N/A', true)|format_date }}</p>
-            <p class="text-yellow-500 mb-2">★ {{ tv_show.vote_average|round(1) }} ({{ tv_show.vote_count }} votes)</p>
-            <p class="text-gray-300 mb-2">{{ tv_show.number_of_seasons }} season(s), {{ tv_show.number_of_episodes }} episode(s)</p>
-            <p class="text-gray-400 mb-2 line-clamp-3">{{ tv_show.overview|truncate(150, true, '...') }}</p>
-            <div class="mb-2">
-                {% for genre in tv_show.genre_ids[:3] %}
-                <span class="inline-block bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
-                    {{ genres|selectattr("id", "eq", genre)|map(attribute="name")|first }}
-                </span>
-                {% endfor %}
+    <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="block movie-card-link">
+        <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
+            <img src="https://image.tmdb.org/t/p/w500{{ tv_show.poster_path }}" alt="{{ tv_show.name }}" class="w-full h-64 object-cover lazy-load" loading="lazy">
+            <div class="p-4">
+                <h3 class="font-bold text-xl mb-2">{{ tv_show.name }}</h3>
+                <p class="text-gray-400 mb-2">First aired: {{ tv_show.first_air_date|default('N/A', true)|format_date }}</p>
+                <p class="text-yellow-500 mb-2">★ {{ tv_show.vote_average|round(1) }} ({{ tv_show.vote_count }} votes)</p>
+                <p class="text-gray-300 mb-2">{{ tv_show.number_of_seasons }} season(s), {{ tv_show.number_of_episodes }} episode(s)</p>
+                <p class="text-gray-400 mb-2 line-clamp-3">{{ tv_show.overview|truncate(150, true, '...') }}</p>
+                <div class="mb-2">
+                    {% for genre in tv_show.genre_ids[:3] %}
+                    <span class="inline-block bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
+                        {{ genres|selectattr("id", "eq", genre)|map(attribute="name")|first }}
+                    </span>
+                    {% endfor %}
+                </div>
             </div>
-            <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="mt-2 inline-block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">View Details</a>
         </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
 
