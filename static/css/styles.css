@@ -251,7 +251,7 @@ a:hover {
 /* Responsive adjustments */
 @media (min-width: 1024px) {
     .lg\:ml-64 {
-        margin-left: 16rem;
+        margin-left: 0; /* Changed from 16rem to 0 */
     }
 }
 
@@ -268,11 +268,6 @@ a:hover {
         width: 100%;
         height: auto;
     }
-
-    main {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
 }
 
 @media (max-width: 640px) {
@@ -282,5 +277,28 @@ a:hover {
 
     .movie-poster {
         height: 180px;
+    }
+}
+
+/* Main content adjustments */
+main {
+    padding-left: 0; /* Ensure no left padding on the main content */
+    padding-right: 0; /* Ensure no right padding on the main content */
+    width: 100%; /* Make sure the main content takes full width */
+}
+
+.container {
+    padding-left: 0; /* Remove any container left padding */
+    padding-right: 0; /* Remove any container right padding */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+    width: 100%; /* Make sure the container takes full width */
+    max-width: none; /* Remove any max-width limitation */
+}
+
+/* Sidebar adjustments */
+@media (max-width: 1023px) {
+    nav.hidden + div {
+        margin-left: 0 !important; /* Remove margin when sidebar is hidden */
     }
 }
