@@ -113,8 +113,32 @@ header {
     background-color: #c53030;
 }
 
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0.5rem;
+}
+
 nav ul li a {
     color: #ffffff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Search bar */
+#search-input {
+    width: 100%;
+    max-width: 300px;
 }
 
 /* Buttons */
@@ -271,6 +295,15 @@ main {
     .movie-poster {
         height: 225px;
     }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 0.25rem 0;
+    }
 }
 
 @media (max-width: 640px) {
@@ -280,5 +313,9 @@ main {
 
     .movie-poster {
         height: 180px;
+    }
+    
+    #search-input {
+        max-width: 100%;
     }
 }
