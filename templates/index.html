@@ -26,7 +26,7 @@
 </section>
 
 <section>
-    <h2 class="text-2xl font-semibold mb-4">Popular US TV Shows</h2>
+    <h2 class="text-2xl font-semibold mb-4">Recent North American TV Shows</h2>
     <div class="movie-grid">
         {% for tv_show in tv_shows %}
         <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="block movie-card-link">

@@ -21,8 +21,8 @@ def load_user(user_id):
 @main.route('/')
 def index():
     popular_movies = get_popular_movies()['results'][:5]
-    popular_tv_shows = get_popular_tv_shows(region='US')['results'][:5]
-    return render_template('index.html', movies=popular_movies, tv_shows=popular_tv_shows)
+    recent_tv_shows = get_popular_tv_shows(region='US', days_ago=30)['results'][:5]
+    return render_template('index.html', movies=popular_movies, tv_shows=recent_tv_shows)
 
 @main.route('/movies')
 def movie_list():
@@ -61,7 +61,6 @@ def tv_show_list():
     popular_tv_shows = get_popular_tv_shows(page=page, genre_id=genre_id, region='US')
     genres = get_genres('tv')
     
-    # Fetch additional details for each TV show
     for tv_show in popular_tv_shows['results']:
         details = get_tv_show_details(tv_show['id'])
         tv_show['number_of_seasons'] = details.get('number_of_seasons', 'N/A')
@@ -112,7 +111,7 @@ def rate_media(media_type, media_id):
         
         rating = Rating.query.filter_by(user_id=current_user.id, movie_id=db_media.id if media_type == 'movie' else None, tv_show_id=db_media.id if media_type == 'tv' else None).first()
         if rating:
-            rating.score = form.score.data * 2  # Convert 5-star rating to 10-point scale
+            rating.score = form.score.data * 2
         else:
             rating = Rating(score=form.score.data * 2, user_id=current_user.id, movie_id=db_media.id if media_type == 'movie' else None, tv_show_id=db_media.id if media_type == 'tv' else None, media_type=media_type)
             db.session.add(rating)

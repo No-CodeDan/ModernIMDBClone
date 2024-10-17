@@ -1,5 +1,6 @@
 import os
 import requests
+from datetime import datetime, timedelta
 
 TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
@@ -16,13 +17,17 @@ def get_popular_movies(page=1, genre_id=None):
     response = requests.get(url, params=params)
     return response.json()
 
-def get_popular_tv_shows(page=1, genre_id=None, region='US'):
+def get_popular_tv_shows(page=1, genre_id=None, region='US', days_ago=30):
     url = f'{BASE_URL}/discover/tv'
+    end_date = datetime.now().strftime('%Y-%m-%d')
+    start_date = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
     params = {
         'api_key': TMDB_API_KEY,
         'page': page,
         'sort_by': 'popularity.desc',
-        'with_origin_country': region
+        'with_origin_country': region,
+        'first_air_date.gte': start_date,
+        'first_air_date.lte': end_date
     }
     if genre_id:
         params['with_genres'] = genre_id
