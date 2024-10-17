@@ -6,7 +6,12 @@
 <h1 class="text-3xl font-bold mb-6">New Releases</h1>
 
 <section class="mb-8">
-    <h2 class="text-2xl font-semibold mb-4">Movies</h2>
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Movies</h2>
+        <a href="{{ url_for('main.movie_list') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            All Movies
+        </a>
+    </div>
     <div class="movie-grid">
         {% for movie in movies %}
         <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="block movie-card-link">
@@ -26,7 +31,12 @@
 </section>
 
 <section>
-    <h2 class="text-2xl font-semibold mb-4">Recent North American TV Shows</h2>
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">TV Shows</h2>
+        <a href="{{ url_for('main.tv_show_list') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            All TV Shows
+        </a>
+    </div>
     <div class="movie-grid">
         {% for tv_show in tv_shows %}
         <a href="{{ url_for('main.tv_show_detail', tv_id=tv_show.id) }}" class="block movie-card-link">

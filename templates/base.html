@@ -33,9 +33,13 @@
                 <nav>
                     <ul class="flex space-x-4">
                         {% if current_user.is_authenticated %}
-                            <li><a href="{{ url_for('main.profile') }}" class="text-white hover:text-gray-300">Profile</a></li>
+                        <li><a href="/movies" class="text-white hover:text-gray-300">Movies</a></li>
+                            <li><a href="/tv_shows" class="text-white hover:text-gray-300">Shows</a></li>
+                        <li><a href="{{ url_for('main.profile') }}" class="text-white hover:text-gray-300">Profile</a></li>
                             <li><a href="{{ url_for('main.logout') }}" class="text-white hover:text-gray-300">Logout</a></li>
                         {% else %}
+                        <li><a href="/movies" class="text-white hover:text-gray-300">Movies</a></li>
+                        <li><a href="/tv_shows" class="text-white hover:text-gray-300">Shows</a></li>
                             <li><a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a></li>
                             <li><a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a></li>
                         {% endif %}
