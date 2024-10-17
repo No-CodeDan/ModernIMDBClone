@@ -3,26 +3,43 @@
 {% block title %}{{ movie.title }} - IMDB Clone{% endblock %}
 
 {% block content %}
-<div class="bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-4xl mx-auto mt-8">
+<div class="bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-6xl mx-auto mt-8">
     <div class="md:flex">
         <div class="md:flex-shrink-0">
-            <img class="h-96 w-full object-cover md:w-64" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+            <img class="h-96 w-full object-cover md:w-96" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
         </div>
-        <div class="p-8 bg-[#2d3748]">
-            <h1 class="text-3xl font-bold mb-2 text-white">{{ movie.title }}</h1>
-            <p class="text-gray-400 mb-4">{{ movie.release_date[:4] }}</p>
-            <p class="text-lg mb-4 text-gray-300">{{ movie.overview }}</p>
+        <div class="p-8 w-full bg-[#2d3748]">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2 text-white">{{ movie.title }}</h1>
+                    <p class="text-gray-400 mb-4">{{ movie.release_date[:4] }}</p>
+                </div>
+                <div class="text-3xl font-bold text-yellow-400">
+                    ★ {{ movie.vote_average|round(1) }}
+                </div>
+            </div>
+            <p class="text-lg mb-6 text-gray-300">{{ movie.overview }}</p>
             
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2 text-white">Cast</h2>
-                <ul class="text-gray-300">
-                    {% for actor in movie.credits.cast[:5] %}
-                    <li>{{ actor.name }} as {{ actor.character }}</li>
-                    {% endfor %}
-                </ul>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-semibold mb-2 text-white">Details</h2>
+                    <p class="text-gray-300">Release Date: {{ movie.release_date }}</p>
+                    <p class="text-gray-300">Runtime: {{ movie.runtime }} minutes</p>
+                    <p class="text-gray-300">Genres: {{ movie.genres|map(attribute='name')|join(', ') }}</p>
+                    <p class="text-gray-300">Budget: ${{ '{:,}'.format(movie.budget) }}</p>
+                    <p class="text-gray-300">Revenue: ${{ '{:,}'.format(movie.revenue) }}</p>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold mb-2 text-white">Cast</h2>
+                    <ul class="text-gray-300">
+                        {% for actor in movie.credits.cast[:5] %}
+                        <li>{{ actor.name }} as {{ actor.character }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
             
-            <div class="mb-4">
+            <div class="mb-6">
                 <h2 class="text-xl font-semibold mb-2 text-white">Crew</h2>
                 <ul class="text-gray-300">
                     {% for member in movie.credits.crew[:5] %}
@@ -30,14 +47,9 @@
                     {% endfor %}
                 </ul>
             </div>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2 text-white">Rating</h2>
-                <p class="text-gray-300">TMDb Rating: {{ movie.vote_average }}/10 ({{ movie.vote_count }} votes)</p>
-            </div>
-            
+
             {% if current_user.is_authenticated %}
-            <form method="POST" action="{{ url_for('main.rate_movie', movie_id=movie.id) }}" id="rating-form">
+            <form method="POST" action="{{ url_for('main.rate_media', media_type='movie', media_id=movie.id) }}" id="rating-form" class="mb-6">
                 {{ form.hidden_tag() }}
                 <div class="mb-4">
                     {{ form.score.label(class="block text-gray-300 text-sm font-bold mb-2") }}
@@ -46,7 +58,7 @@
                         <div class="star-rating-stars"></div>
                     </div>
                 </div>
-                {{ form.submit(class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+                {{ form.submit(class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
             </form>
             <p class="mt-2 user-rating text-gray-300">Your rating: {{ user_rating.score / 2 if user_rating else 0 }} stars</p>
             {% else %}
@@ -55,57 +67,6 @@
         </div>
     </div>
 </div>
-
-<style>
-.star-rating-container {
-    position: relative;
-    display: inline-block;
-    width: 200px;
-    height: 40px;
-}
-
-.star-rating-input {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.star-rating-stars {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.star-rating-stars::before,
-.star-rating-stars::after {
-    content: "★★★★★";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 32px;
-    line-height: 40px;
-}
-
-.star-rating-stars::before {
-    color: #4a5568;
-}
-
-.star-rating-stars::after {
-    color: #fbbf24;
-    overflow: hidden;
-    width: var(--rating-width, 0%);
-    white-space: nowrap;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: width 0.2s ease-in-out;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

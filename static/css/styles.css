@@ -196,6 +196,56 @@ main {
     margin-right: 0.25rem;
 }
 
+/* Star Rating Styles */
+.star-rating-container {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+}
+
+.star-rating-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.star-rating-stars {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.star-rating-stars::before,
+.star-rating-stars::after {
+    content: "★★★★★";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 32px;
+    line-height: 40px;
+}
+
+.star-rating-stars::before {
+    color: #4a5568;
+}
+
+.star-rating-stars::after {
+    color: #fbbf24;
+    overflow: hidden;
+    width: var(--rating-width, 0%);
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.2s ease-in-out;
+}
+
 @media (max-width: 768px) {
     .container {
         padding-left: 1rem;
