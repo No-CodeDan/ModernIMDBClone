@@ -121,11 +121,11 @@ nav ul li a {
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    background-color: #c53030;
+    background-color: #9b2c2c;
 }
 
 /* Header */
-.dark-red-header {
+header {
     background-color: #c53030;
 }
 
@@ -135,7 +135,7 @@ a {
 }
 
 a:hover {
-    color: #c53030;
+    color: #9b2c2c;
 }
 
 /* Updating button styles */
@@ -145,8 +145,8 @@ a:hover {
 }
 
 .btn-primary:hover {
-    background-color: #c53030;
-    border-color: #c53030;
+    background-color: #9b2c2c;
+    border-color: #9b2c2c;
 }
 
 /* Ensure text contrast for accessibility */
@@ -155,7 +155,7 @@ a:hover {
 }
 
 .text-red-500:hover {
-    color: #c53030;
+    color: #9b2c2c;
 }
 
 .bg-red-500 {
@@ -163,20 +163,20 @@ a:hover {
 }
 
 .bg-red-500:hover {
-    background-color: #c53030;
+    background-color: #9b2c2c;
 }
 
 .focus\:ring-red-300:focus {
-    --tw-ring-color: #c53030;
+    --tw-ring-color: #fc8181;
 }
 
 /* Update any other blue elements to red */
 .text-red-400 {
-    color: #c53030;
+    color: #fc8181;
 }
 
 .hover\:text-red-800:hover {
-    color: #c53030;
+    color: #9b2c2c;
 }
 
 /* Star rating styles */
@@ -248,38 +248,29 @@ a:hover {
     background-color: #2d3748;
 }
 
-/* Update blue-600 to red */
-.bg-blue-600 {
-    background-color: #c53030;
-}
-
-/* Adjust main content to expand full width */
-.ml-64 {
-    margin-left: 16rem; /* 64px / 4 = 16rem */
-}
-
-main {
-    width: 100%;
-    max-width: calc(100vw - 16rem);
-    margin-left: auto;
-    margin-right: auto;
-}
-
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .ml-64 {
+@media (max-width: 1024px) {
+    .lg\:ml-64 {
         margin-left: 0;
     }
 
     nav {
         width: 100%;
-        position: static;
         height: auto;
     }
 
     main {
-        max-width: 100%;
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    .movie-poster {
+        height: 210px;
     }
 }
