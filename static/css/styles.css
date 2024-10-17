@@ -107,7 +107,7 @@ body {
 
 /* Navigation bar */
 nav {
-    background-color: #e53e3e;
+    background-color: #c53030;
 }
 
 nav ul li a {
@@ -116,7 +116,7 @@ nav ul li a {
 
 /* Buttons */
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
-    background-color: #e53e3e;
+    background-color: #c53030;
     color: #ffffff;
 }
 
@@ -131,7 +131,7 @@ nav ul li a {
 
 /* Changing link colors */
 a {
-    color: #e53e3e;
+    color: #c53030;
 }
 
 a:hover {
@@ -140,8 +140,8 @@ a:hover {
 
 /* Updating button styles */
 .btn-primary {
-    background-color: #e53e3e;
-    border-color: #e53e3e;
+    background-color: #c53030;
+    border-color: #c53030;
 }
 
 .btn-primary:hover {
@@ -151,7 +151,7 @@ a:hover {
 
 /* Ensure text contrast for accessibility */
 .text-red-500 {
-    color: #e53e3e;
+    color: #c53030;
 }
 
 .text-red-500:hover {
@@ -159,7 +159,7 @@ a:hover {
 }
 
 .bg-red-500 {
-    background-color: #e53e3e;
+    background-color: #c53030;
 }
 
 .bg-red-500:hover {
@@ -167,12 +167,12 @@ a:hover {
 }
 
 .focus\:ring-red-300:focus {
-    --tw-ring-color: #e53e3e;
+    --tw-ring-color: #c53030;
 }
 
 /* Update any other blue elements to red */
 .text-red-400 {
-    color: #e53e3e;
+    color: #c53030;
 }
 
 .hover\:text-red-800:hover {
@@ -250,7 +250,7 @@ a:hover {
 
 /* Update blue-600 to red */
 .bg-blue-600 {
-    background-color: #e53e3e;
+    background-color: #c53030;
 }
 
 /* Adjust main content to expand full width */
@@ -258,6 +258,28 @@ a:hover {
     margin-left: 16rem; /* 64px / 4 = 16rem */
 }
 
-main.w-full {
-    width: calc(100% - 16rem); /* Subtract the sidebar width */
+main {
+    width: 100%;
+    max-width: calc(100vw - 16rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ml-64 {
+        margin-left: 0;
+    }
+
+    nav {
+        width: 100%;
+        position: static;
+        height: auto;
+    }
+
+    main {
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
