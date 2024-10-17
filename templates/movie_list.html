@@ -14,23 +14,18 @@
             <option value="{{ genre.id }}" {% if genre.id|string == current_genre_id|string %}selected{% endif %}>{{ genre.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit" class="ml-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Filter</button>
+        <button type="submit" class="ml-2 bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">Filter</button>
     </form>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {% for movie in movies %}
     <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="block movie-card-link">
-        <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
-            <div class="relative">
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-64 object-cover">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center">
-                    {{ movie.vote_average|round(1) }}
-                </div>
-            </div>
+        <div class="bg-gray-800 rounded shadow-md overflow-hidden">
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-64 object-cover">
             <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-white">{{ movie.title }}</h3>
-                <p class="text-gray-400">{{ movie.release_date[:4] if movie.release_date else 'N/A' }}</p>
+                <p class="text-gray-400">{{ movie.release_date[:4] }}</p>
             </div>
         </div>
     </a>
@@ -39,10 +34,10 @@
 
 <div class="mt-8 flex justify-center">
     {% if page > 1 %}
-    <a href="{{ url_for('main.movie_list', page=page-1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Previous</a>
+    <a href="{{ url_for('main.movie_list', page=page-1, genre_id=current_genre_id) }}" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Previous</a>
     {% endif %}
     {% if page < total_pages %}
-    <a href="{{ url_for('main.movie_list', page=page+1, genre_id=current_genre_id) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Next</a>
+    <a href="{{ url_for('main.movie_list', page=page+1, genre_id=current_genre_id) }}" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">Next</a>
     {% endif %}
 </div>
 {% endblock %}
