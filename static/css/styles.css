@@ -181,6 +181,14 @@ main {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 72rem; /* This is equivalent to max-w-6xl in Tailwind */
+    }
 }
 
 /* Responsive adjustments */
